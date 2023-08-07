@@ -24,33 +24,28 @@ fn main() {
         println!("enter tag:");
         let mut inputted_string = set_input();
         tag_list.push(inputted_string);
+        println!("tag list is {:?}", tag_list);
         
         println!("do you want to enter more tags? (y/n)");
         
-        while choice.to_lowercase().trim() == "y" {
-           choice.clear();   
-           
-           print!("Your choice");
-           stdout().flush().expect("Cannot flush stdout");
-           
-           stdin()
-               .read_line(&mut choice)
-               .expect("Cannot read user input");
-           
-           println!();
-           println!("You selected: {}", choice);
+        let mut choice = set_input();
 
-           if choice.trim() == "p" {
-               println!("Hello!");
-               println!();
-           };
-       }
+        while choice.to_lowercase().trim() == "y" {
+                choice.clear();
+                println!("enter tag:");
+                
+                let mut inputted_string = set_input();
+                tag_list.push(inputted_string);
+                println!("tag list is {:?}", tag_list);
+                println!("do you want to enter more tags? (y/n)");
+                let mut choice = set_input();
+           }
         return tag_list;
     }
     
     
     println!("Enter tag input function? (y/n)");
-    if set_input().to_lowercase() == "y\n" {
+    if set_input().to_lowercase().trim() == "y" {
         let array_result = set_tags();
         println!("{:?}",array_result);
     };
