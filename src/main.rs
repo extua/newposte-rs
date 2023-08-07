@@ -3,17 +3,10 @@ use std::fs::File;
 use std::io::stdin;
 use std::io::stdout;
 use std::io::{BufWriter, Write};
-//use dialoguer::Confirm;
 
 
 fn main() {
 
-// if Confirm::new().with_prompt("Do you want to continue?").interact()? {
-//    println!("Looks like you want to continue");
-//} else {
-//    println!("nevermind then :(");
-//}
-//
 //  function which returns array
 // do you want to add tags? y-n
 //      if yes, create new array, if no move on
