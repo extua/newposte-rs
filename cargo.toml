@@ -2,6 +2,10 @@
 name = "easy_rust_examples"
 version = "0.2.0"
 edition = "2021"
+authors = ["Pierre M <pierre.marshall@leicester.gov.uk>"]
+description = "short little rust utility to create a new Jekyll post with some front matter"
+repository = "https://github.com/extua/newposte-rs"
+license = "GPL-3.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
