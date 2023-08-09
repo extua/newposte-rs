@@ -7,49 +7,32 @@ use std::io::{BufWriter, Write};
 
 fn main() {
 
-//  function which returns array
-// do you want to add tags? y-n
-//      if yes, create new array, if no move on
-// > function user input to add tag to array
-// do you have more tags to add? y-n
-//      if yes, return to function, if no move on
-   
-
-    fn set_tags() -> Vec<String> {
-
+    fn set_tags() -> String {
         let mut tag_list:Vec<String> = Vec::new();
-
-        let mut choice = String::new();
-        
         println!("enter tag:");
-        let mut inputted_string = set_input();
+        let mut inputted_string = set_input().trim().to_string();
         tag_list.push(inputted_string);
-        println!("tag list is {:?}", tag_list);
-        
+        println!("the tag list is {:?}", tag_list);
         println!("do you want to enter more tags? (y/n)");
-        
-        let mut choice = set_input();
-
-        while choice.to_lowercase().trim() == "y" {
-                choice.clear();
+        while set_input().to_lowercase().trim() == "y" {
                 println!("enter tag:");
-                
-                let mut inputted_string = set_input();
+                let mut inputted_string = set_input().trim().to_string();
                 tag_list.push(inputted_string);
-                println!("tag list is {:?}", tag_list);
+                println!("the tag list is now {:?}", tag_list);
                 println!("do you want to enter more tags? (y/n)");
-                let mut choice = set_input();
            }
-        return tag_list;
+        let tag_list_string = format!("[{}]",tag_list.join(", "));
+        return tag_list_string
     }
     
-    
     println!("Enter tag input function? (y/n)");
-    if set_input().to_lowercase().trim() == "y" {
+    let tag_list = if set_input().to_lowercase().trim() == "y" {
         let array_result = set_tags();
-        println!("{:?}",array_result);
-    };
+        array_result
+    } else {"".to_string()};
     
+    println!("{:?}",tag_list);
+
     // Set date today
     let local: DateTime<Local> = Local::now();
     let date_today = format!("{}", local.format("%Y-%m-%d"));
@@ -104,6 +87,10 @@ fn main() {
     if !location.trim().is_empty() {
         println!("writing the location to file");
         write!(file, "location: {}\n", location.trim()).expect("failed to write the location to file");
+    }
+    if !tag_list.is_empty() {
+        println!("writing tags to file");
+        write!(file, "tags: {}\n", tag_list).expect("failed to write tags to file");
     }
     write!(file, "---\n\n").expect("failed to write bottom front matter dots");
     println!("everything written to file");
