@@ -83,6 +83,7 @@ fn main() {
     let mut file = BufWriter::new(file);
     
     write!(file, "---\n").expect("failed to write top front matter dots");
+    write!(file, "layout: post\n").expect("failed to write post layout to file");
     write!(file, "title: {}", title).expect("failed to write title to file");
     if !location.trim().is_empty() {
         println!("writing the location to file");
