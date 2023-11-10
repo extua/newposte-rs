@@ -14,3 +14,6 @@ license = "GPL-3.0"
 # aws-sdk-s3 = "0.28.0"
 # tokio = { version = "1", features = ["full"] }
 chrono = "0.4.26"
+
+[profile.release]
+strip = "symbols"
