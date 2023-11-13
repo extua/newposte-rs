@@ -13,7 +13,8 @@ fn main() {
                         if filename.len() > 4 {
                             // saturating sub here will subtract up to the limit of the integer type (zero for unsigned integer)
                             let filetype =
-                                &filename[filename.len().saturating_sub(4)..filename.len()];
+                                &filename[filename.len().saturating_sub(4)
+                                    ..filename.len()];
                             if filetype == ".jpg" {
                                 return true;
                             } else {
@@ -25,8 +26,10 @@ fn main() {
                     }
 
                     if is_jpeg(&filename) {
-                        let formatted_filename =
-                            format!("% picture {}{} --alt {} %", &path_end, &filename, &filename);
+                        let formatted_filename = format!(
+                            "% picture {}{} --alt {} %",
+                            &path_end, &filename, &filename
+                        );
                         println!("yapec here, {}", formatted_filename);
                         entries_list.push(filename);
                     }

@@ -86,7 +86,8 @@ fn main() {
     let mut file = BufWriter::new(file);
 
     write!(file, "---\n").expect("failed to write top front matter dots");
-    write!(file, "layout: post\n").expect("failed to write post layout to file");
+    write!(file, "layout: post\n")
+        .expect("failed to write post layout to file");
     write!(file, "title: {}", title).expect("failed to write title to file");
     if !location.trim().is_empty() {
         println!("writing the location to file");
@@ -95,7 +96,8 @@ fn main() {
     }
     if !tag_list.is_empty() {
         println!("writing tags to file");
-        write!(file, "tags: {}\n", tag_list).expect("failed to write tags to file");
+        write!(file, "tags: {}\n", tag_list)
+            .expect("failed to write tags to file");
     }
     write!(file, "---\n\n").expect("failed to write bottom front matter dots");
     println!("everything written to file");
