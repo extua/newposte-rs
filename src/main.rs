@@ -46,7 +46,9 @@ fn main() {
     println!("Lowercase title is {lowertitle}");
 
     // Create file and write to it
-    let filename = format!("{}-{}.md", date_today, lowertitle);
+    // for future working out, drafts must exist, and if not
+    // you must create it!
+    let filename = format!("_drafts/{}-{}.md", date_today, lowertitle);
     println!("You set the filename as {}", filename);
 
     // function to set and format tags
@@ -84,19 +86,19 @@ fn main() {
 
     fn print_dir(path_end: &str) -> Vec<String> {
         let mut entries_list: Vec<String> = Vec::new();
-        let full_path = format!(
-            "/home/pierre/Documents/projects/extua.pw/media/2023/{}",
-            path_end
-        );
+        let full_path = format!("media/2023/{}", path_end);
         if let Ok(entries) = fs::read_dir(&full_path) {
             for entry in entries {
                 if let Ok(entry) = entry {
                     // Here, `entry` is a `DirEntry`.
                     let filename = entry.file_name().into_string().unwrap();
-                    // if filename is longer than 4 characters, slice last four characters from string
+                    // if filename is longer than 4 characters,
+                    // slice last four characters from string
                     fn is_jpeg(filename: &str) -> bool {
                         if filename.len() > 4 {
-                            // saturating sub here will subtract up to the limit of the integer type (zero for unsigned integer)
+                            // saturating sub here will subtract
+                            // up to the limit of the integer type
+                            // (zero for unsigned integer)
                             let filetype =
                                 &filename[filename.len().saturating_sub(4)
                                     ..filename.len()];

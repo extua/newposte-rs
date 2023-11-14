@@ -1,5 +1,5 @@
 [package]
-name = "easy_rust_examples"
+name = "newposter"
 version = "0.2.0"
 edition = "2021"
 authors = ["Pierre M <pierre.marshall@leicester.gov.uk>"]
@@ -16,4 +16,7 @@ license = "GPL-3.0"
 chrono = "0.4.26"
 
 [profile.release]
+# magic incantations to produce speedier builds
 strip = "symbols"
+lto = true
+codegen-units = 1
