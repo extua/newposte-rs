@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use std::fs;
 use std::fs::File;
 use std::io::stdin;
 //use std::io::stdout;
@@ -67,10 +68,9 @@ fn main() {
         return tag_list_string;
     }
 
-    println!("Enter tag input function? (y/n)");
-    let tag_list = if set_input().to_lowercase().trim() == "y" {
-        let array_result = set_tags();
-        array_result
+    println!("Enter tags? (y/n)");
+    let tag_list: String = if set_input().to_lowercase().trim() == "y" {
+        set_tags()
     } else {
         "".to_string()
     };
@@ -81,6 +81,63 @@ fn main() {
     let location = set_input();
 
     println!("You set the location as {:?}", location);
+
+    fn print_dir(path_end: &str) -> Vec<String> {
+        let mut entries_list: Vec<String> = Vec::new();
+        let full_path = format!(
+            "/home/pierre/Documents/projects/extua.pw/media/2023/{}",
+            path_end
+        );
+        if let Ok(entries) = fs::read_dir(&full_path) {
+            for entry in entries {
+                if let Ok(entry) = entry {
+                    // Here, `entry` is a `DirEntry`.
+                    let filename = entry.file_name().into_string().unwrap();
+                    // if filename is longer than 4 characters, slice last four characters from string
+                    fn is_jpeg(filename: &str) -> bool {
+                        if filename.len() > 4 {
+                            // saturating sub here will subtract up to the limit of the integer type (zero for unsigned integer)
+                            let filetype =
+                                &filename[filename.len().saturating_sub(4)
+                                    ..filename.len()];
+                            if filetype == ".jpg" {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
+
+                    if is_jpeg(&filename) {
+                        let alt_text = &filename
+                            .strip_suffix(".jpg")
+                            .unwrap()
+                            .replace("_", " ");
+                        let formatted_filename = format!(
+                            "{{% picture {}{} --alt {} %}}",
+                            &full_path, &filename, &alt_text
+                        );
+                        println!("found {}", &filename);
+                        entries_list.push(formatted_filename);
+                    }
+                }
+            }
+        }
+        return entries_list;
+    }
+
+    println!("Add pictures? (y/n)");
+    let pictures_list_string = if set_input().to_lowercase().trim() == "y" {
+        println!("Enter media directory:");
+        let directory_stem = set_input();
+        let pictures_list = print_dir(&directory_stem.trim());
+        pictures_list.join("\n\n")
+    } else {
+        println!("Not adding pictures");
+        "".to_string()
+    };
 
     let file = File::create(filename).expect("unable to create file");
     let mut file = BufWriter::new(file);
@@ -100,5 +157,8 @@ fn main() {
             .expect("failed to write tags to file");
     }
     write!(file, "---\n\n").expect("failed to write bottom front matter dots");
+    write!(file, "{}", pictures_list_string)
+        .expect("failed to write picture list");
+
     println!("everything written to file");
 }
