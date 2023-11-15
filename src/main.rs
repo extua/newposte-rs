@@ -18,7 +18,7 @@ fn main() {
     let date_today = format!("{}", local.format("%Y-%m-%d"));
     println!("date now is {}", date_today);
 
-    // filter special characters from title
+    // Filter special characters from title
     fn filter_input(raw_string: &str) -> String {
         let filtered_string = raw_string
             .to_lowercase()
@@ -38,7 +38,7 @@ fn main() {
         return filtered_string;
     }
 
-    // set title from input
+    // Set title from input
     println!("write title");
     let title = set_input();
     let lowertitle = filter_input(&title);
@@ -51,7 +51,7 @@ fn main() {
     let filename = format!("_drafts/{}-{}.md", date_today, lowertitle);
     println!("You set the filename as {}", filename);
 
-    // function to set and format tags
+    // Function to set and format tags
     fn set_tags() -> String {
         let mut tag_list: Vec<String> = Vec::new();
         println!("enter tag:");
@@ -76,7 +76,6 @@ fn main() {
     } else {
         "".to_string()
     };
-
     println!("{:?}", tag_list);
 
     println!("write location");
@@ -99,7 +98,7 @@ fn main() {
                             // saturating sub here will subtract
                             // up to the limit of the integer type
                             // (zero for unsigned integer)
-                            let filetype =
+                            let filetype: &str =
                                 &filename[filename.len().saturating_sub(4)
                                     ..filename.len()];
                             if filetype == ".jpg" {
@@ -113,11 +112,12 @@ fn main() {
                     }
 
                     if is_jpeg(&filename) {
-                        let alt_text = &filename
+                        let alt_text: &String = &filename
                             .strip_suffix(".jpg")
                             .unwrap()
                             .replace("_", " ");
-                        let formatted_filename = format!(
+                        // what to do about slashes here
+                        let formatted_filename: String = format!(
                             "{{% picture {}{} --alt {} %}}",
                             &full_path, &filename, &alt_text
                         );
@@ -131,16 +131,18 @@ fn main() {
     }
 
     println!("Add pictures? (y/n)");
-    let pictures_list_string = if set_input().to_lowercase().trim() == "y" {
+    let pictures_list_string: String = if set_input().to_lowercase().trim() == "y" {
         println!("Enter media directory:");
+        println!("in month/title/ format, eg. 10/art_museum/");
         let directory_stem = set_input();
         let pictures_list = print_dir(&directory_stem.trim());
-        pictures_list.join("\n\n")
+        pictures_list.join("\n")
     } else {
         println!("Not adding pictures");
         "".to_string()
     };
-
+    
+    // Now write everything out to a file
     let file = File::create(filename).expect("unable to create file");
     let mut file = BufWriter::new(file);
 
