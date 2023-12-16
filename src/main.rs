@@ -85,7 +85,7 @@ fn main() {
 
     fn print_dir(path_end: &str) -> Vec<String> {
         let mut entries_list: Vec<String> = Vec::new();
-        let full_path = format!("media/2023/{}", path_end);
+        let full_path = format!("2023/{}", path_end);
         if let Ok(entries) = fs::read_dir(&full_path) {
             for entry in entries {
                 if let Ok(entry) = entry {
