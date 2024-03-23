@@ -101,7 +101,9 @@ fn main() {
                             let filetype: &str =
                                 &filename[filename.len().saturating_sub(4)
                                     ..filename.len()];
-                            if filetype == ".jpg" {
+                            let filetypes_to_match: [&str; 2] =
+                                [".jpg", ".jxl"];
+                            if filetypes_to_match.contains(&filetype) {
                                 return true;
                             } else {
                                 return false;
