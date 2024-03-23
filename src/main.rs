@@ -85,7 +85,7 @@ fn main() {
 
     fn print_dir(path_end: &str) -> Vec<String> {
         let mut entries_list: Vec<String> = Vec::new();
-        let full_path = format!("2023/{}", path_end);
+        let full_path = format!("media/2023/{}", path_end);
         if let Ok(entries) = fs::read_dir(&full_path) {
             for entry in entries {
                 if let Ok(entry) = entry {
@@ -104,6 +104,7 @@ fn main() {
                             let filetypes_to_match: [&str; 2] =
                                 [".jpg", ".jxl"];
                             if filetypes_to_match.contains(&filetype) {
+                                println!("{} found", &filetype);
                                 return true;
                             } else {
                                 return false;
@@ -115,8 +116,12 @@ fn main() {
 
                     if is_photo(&filename) {
                         let alt_text: &String = &filename
-                            .strip_suffix(".jpg")
-                            .unwrap()
+                        // TODO NEED TO HANDLE THESE somehow
+                            .strip_suffix(".jpg").expect("No jpg found")
+                            .strip_suffix(".jxl").expect("No jxl found")
+                            // .trim_end_matches(|c| c == ".jpg" || c == ".jxl")
+                            // .unwrap()
+                            // .replace([".jpg" || ".jxl"], "")
                             .replace("_", " ");
                         // what to do about slashes here
                         let formatted_filename: String = format!(
@@ -127,10 +132,15 @@ fn main() {
                         entries_list.push(formatted_filename);
                     }
                 }
-            }
+            } 
+        }
+        else {
+            println!("Directory not found")
         }
         return entries_list;
+        
     }
+    
 
     println!("Add pictures? (y/n)");
     let pictures_list_string: String =
