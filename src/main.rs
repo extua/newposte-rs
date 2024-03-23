@@ -131,17 +131,18 @@ fn main() {
     }
 
     println!("Add pictures? (y/n)");
-    let pictures_list_string: String = if set_input().to_lowercase().trim() == "y" {
-        println!("Enter media directory:");
-        println!("in month/title/ format, eg. 10/art_museum/");
-        let directory_stem = set_input();
-        let pictures_list = print_dir(&directory_stem.trim());
-        pictures_list.join("\n")
-    } else {
-        println!("Not adding pictures");
-        "".to_string()
-    };
-    
+    let pictures_list_string: String =
+        if set_input().to_lowercase().trim() == "y" {
+            println!("Enter media directory:");
+            println!("in month/title/ format, eg. 10/art_museum/");
+            let directory_stem = set_input();
+            let pictures_list = print_dir(&directory_stem.trim());
+            pictures_list.join("\n")
+        } else {
+            println!("Not adding pictures");
+            "".to_string()
+        };
+
     // Now write everything out to a file
     let file = File::create(filename).expect("unable to create file");
     let mut file = BufWriter::new(file);
