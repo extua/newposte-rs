@@ -93,7 +93,7 @@ fn main() {
                     let filename = entry.file_name().into_string().unwrap();
                     // if filename is longer than 4 characters,
                     // slice last four characters from string
-                    fn is_jpeg(filename: &str) -> bool {
+                    fn is_photo(filename: &str) -> bool {
                         if filename.len() > 4 {
                             // saturating sub here will subtract
                             // up to the limit of the integer type
@@ -111,7 +111,7 @@ fn main() {
                         }
                     }
 
-                    if is_jpeg(&filename) {
+                    if is_photo(&filename) {
                         let alt_text: &String = &filename
                             .strip_suffix(".jpg")
                             .unwrap()
