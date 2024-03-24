@@ -115,15 +115,13 @@ fn main() {
                     }
 
                     if is_photo(&filename) {
-                        let alt_text: &String = &filename
-                        // TODO NEED TO HANDLE THESE somehow
-                            .strip_suffix(".jpg").expect("No jpg found")
-                            .strip_suffix(".jxl").expect("No jxl found")
-                            // .trim_end_matches(|c| c == ".jpg" || c == ".jxl")
-                            // .unwrap()
-                            // .replace([".jpg" || ".jxl"], "")
-                            .replace("_", " ");
-                        // what to do about slashes here
+                        // define alt_text and convert underscores to spaces
+                        let alt_text: &mut String =
+                            &mut filename.replace("_", " ");
+                        // cut off the last 4 characters of the filename
+                        let alt_text_len: usize = alt_text.len();
+                        alt_text.truncate(alt_text_len - 4);
+
                         let formatted_filename: String = format!(
                             "{{% picture {}{} --alt {} %}}",
                             &full_path, &filename, &alt_text
@@ -132,15 +130,12 @@ fn main() {
                         entries_list.push(formatted_filename);
                     }
                 }
-            } 
-        }
-        else {
+            }
+        } else {
             println!("Directory not found")
         }
         return entries_list;
-        
     }
-    
 
     println!("Add pictures? (y/n)");
     let pictures_list_string: String =
