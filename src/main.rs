@@ -55,13 +55,13 @@ fn main() {
     fn set_tags() -> String {
         let mut tag_list: Vec<String> = Vec::new();
         println!("enter tag:");
-        let inputted_string = set_input().trim().to_string();
+        let inputted_string = set_input().trim_end().to_string();
         tag_list.push(inputted_string);
         println!("the tag list is {:?}", tag_list);
         println!("do you want to enter more tags? (y/n)");
-        while set_input().to_lowercase().trim() == "y" {
+        while set_input().to_lowercase().trim_end() == "y" {
             println!("enter tag:");
-            let inputted_string = set_input().trim().to_string();
+            let inputted_string = set_input().trim_end().to_string();
             tag_list.push(inputted_string);
             println!("the tag list is now {:?}", tag_list);
             println!("do you want to enter more tags? (y/n)");
@@ -71,7 +71,7 @@ fn main() {
     }
 
     println!("Enter tags? (y/n)");
-    let tag_list: String = if set_input().to_lowercase().trim() == "y" {
+    let tag_list: String = if set_input().to_lowercase().trim_end() == "y" {
         set_tags()
     } else {
         "".to_string()
@@ -104,7 +104,7 @@ fn main() {
                             let filetypes_to_match: [&str; 2] =
                                 [".jpg", ".jxl"];
                             if filetypes_to_match.contains(&filetype) {
-                                println!("{} found", &filetype);
+                                // println!("{} found", &filetype);
                                 return true;
                             } else {
                                 return false;
@@ -139,11 +139,11 @@ fn main() {
 
     println!("Add pictures? (y/n)");
     let pictures_list_string: String =
-        if set_input().to_lowercase().trim() == "y" {
+        if set_input().to_lowercase().trim_end() == "y" {
             println!("Enter media directory:");
             println!("in month/title/ format, eg. 10/art_museum/");
             let directory_stem = set_input();
-            let pictures_list = print_dir(&directory_stem.trim());
+            let pictures_list = print_dir(&directory_stem.trim_end());
             pictures_list.join("\n")
         } else {
             println!("Not adding pictures");
@@ -158,9 +158,9 @@ fn main() {
     write!(file, "layout: post\n")
         .expect("failed to write post layout to file");
     write!(file, "title: {}", title).expect("failed to write title to file");
-    if !location.trim().is_empty() {
+    if !location.trim_end().is_empty() {
         println!("writing the location to file");
-        write!(file, "location: {}\n", location.trim())
+        write!(file, "location: {}\n", location.trim_end())
             .expect("failed to write the location to file");
     }
     if !tag_list.is_empty() {
