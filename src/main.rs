@@ -124,7 +124,9 @@ fn main() {
 
                         let formatted_filename: String = format!(
                             "{{% picture {}{} --alt {} %}}",
-                            &full_path, &filename, &alt_text
+                            &full_path[6..],
+                            &filename,
+                            &alt_text
                         );
                         println!("found {}", &filename);
                         entries_list.push(formatted_filename);
