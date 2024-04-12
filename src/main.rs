@@ -141,7 +141,7 @@ fn main() {
             println!("Enter media directory:");
             println!("in month/title/ format, eg. 10/art_museum/");
             let directory_stem = set_input();
-            let pictures_list = print_dir(&directory_stem.trim_end());
+            let pictures_list = print_dir(directory_stem.trim_end());
             pictures_list.join("\n")
         } else {
             println!("Not adding pictures");
@@ -152,21 +152,21 @@ fn main() {
     let file = File::create(filename).expect("unable to create file");
     let mut file = BufWriter::new(file);
 
-    write!(file, "---\n").expect("failed to write top front matter dots");
-    write!(file, "layout: post\n")
+    writeln!(file, "---").expect("failed to write top front matter dots");
+    writeln!(file, "layout: post")
         .expect("failed to write post layout to file");
     write!(file, "title: {}", title).expect("failed to write title to file");
     if !location.trim_end().is_empty() {
         println!("writing the location to file");
-        write!(file, "location: {}\n", location.trim_end())
+        writeln!(file, "location: {}", location.trim_end())
             .expect("failed to write the location to file");
     }
     if !tag_list.is_empty() {
         println!("writing tags to file");
-        write!(file, "tags: {}\n", tag_list)
+        writeln!(file, "tags: {}", tag_list)
             .expect("failed to write tags to file");
     }
-    write!(file, "---\n\n").expect("failed to write bottom front matter dots");
+    writeln!(file, "---\n").expect("failed to write bottom front matter dots");
     write!(file, "{}", pictures_list_string)
         .expect("failed to write picture list");
 
