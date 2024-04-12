@@ -10,7 +10,7 @@ fn main() {
     fn set_input() -> String {
         let mut input_string = String::new();
         stdin().read_line(&mut input_string).unwrap();
-        return input_string;
+        input_string
     }
 
     // Set date today
@@ -35,7 +35,7 @@ fn main() {
                 }
             })
             .collect();
-        return filtered_string;
+        filtered_string
     }
 
     // Set title from input
@@ -67,7 +67,7 @@ fn main() {
             println!("do you want to enter more tags? (y/n)");
         }
         let tag_list_string = format!("[{}]", tag_list.join(", "));
-        return tag_list_string;
+        tag_list_string
     }
 
     println!("Enter tags? (y/n)");
@@ -105,12 +105,12 @@ fn main() {
                                 [".jpg", ".jxl"];
                             if filetypes_to_match.contains(&filetype) {
                                 // println!("{} found", &filetype);
-                                return true;
+                                true
                             } else {
-                                return false;
+                                false
                             }
                         } else {
-                            return false;
+                            false
                         }
                     }
 
@@ -136,7 +136,7 @@ fn main() {
         } else {
             println!("Directory not found")
         }
-        return entries_list;
+        entries_list
     }
 
     println!("Add pictures? (y/n)");
