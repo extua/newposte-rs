@@ -117,7 +117,7 @@ fn main() {
                     if is_photo(&filename) {
                         // define alt_text and convert underscores to spaces
                         let alt_text: &mut String =
-                            &mut filename.replace("_", " ");
+                            &mut filename.replace("'_'", " ");
                         // cut off the last 4 characters of the filename
                         let alt_text_len: usize = alt_text.len();
                         alt_text.truncate(alt_text_len - 4);
