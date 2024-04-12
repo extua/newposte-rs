@@ -87,50 +87,46 @@ fn main() {
         let mut entries_list: Vec<String> = Vec::new();
         let full_path = format!("media/2023/{}", path_end);
         if let Ok(entries) = fs::read_dir(&full_path) {
-            for entry in entries {
-                if let Ok(entry) = entry {
-                    // Here, `entry` is a `DirEntry`.
-                    let filename = entry.file_name().into_string().unwrap();
-                    // if filename is longer than 4 characters,
-                    // slice last four characters from string
-                    fn is_photo(filename: &str) -> bool {
-                        if filename.len() > 4 {
-                            // saturating sub here will subtract
-                            // up to the limit of the integer type
-                            // (zero for unsigned integer)
-                            let filetype: &str =
-                                &filename[filename.len().saturating_sub(4)
-                                    ..filename.len()];
-                            let filetypes_to_match: [&str; 2] =
-                                [".jpg", ".jxl"];
-                            if filetypes_to_match.contains(&filetype) {
-                                // println!("{} found", &filetype);
-                                true
-                            } else {
-                                false
-                            }
+            for entry in entries.flatten() {
+                // Here, `entry` is a `DirEntry`.
+                let filename = entry.file_name().into_string().unwrap();
+                // if filename is longer than 4 characters,
+                // slice last four characters from string
+                fn is_photo(filename: &str) -> bool {
+                    if filename.len() > 4 {
+                        // saturating sub here will subtract
+                        // up to the limit of the integer type
+                        // (zero for unsigned integer)
+                        let filetype: &str = &filename
+                            [filename.len().saturating_sub(4)..filename.len()];
+                        let filetypes_to_match: [&str; 2] = [".jpg", ".jxl"];
+                        if filetypes_to_match.contains(&filetype) {
+                            // println!("{} found", &filetype);
+                            true
                         } else {
                             false
                         }
+                    } else {
+                        false
                     }
+                }
 
-                    if is_photo(&filename) {
-                        // define alt_text and convert underscores to spaces
-                        let alt_text: &mut String =
-                            &mut filename.replace("'_'", " ");
-                        // cut off the last 4 characters of the filename
-                        let alt_text_len: usize = alt_text.len();
-                        alt_text.truncate(alt_text_len - 4);
+                if is_photo(&filename) {
+                    // define alt_text and convert underscores to spaces
+                    let alt_text: &mut String =
+                        &mut filename.replace("'_'", " ");
+                    // cut off the last 4 characters of the filename
+                    let alt_text_len: usize = alt_text.len();
+                    alt_text.truncate(alt_text_len - 4);
 
-                        let formatted_filename: String = format!(
-                            "{{% picture {}{} --alt {} %}}",
-                            &full_path[6..],
-                            &filename,
-                            &alt_text
-                        );
-                        println!("found {}", &filename);
-                        entries_list.push(formatted_filename);
-                    }
+                    let formatted_filename: String = format!(
+                        "{{% picture {}{} --alt {} %}}",
+                        &full_path[6..],
+                        &filename,
+                        &alt_text
+                    );
+                    println!("found {}", &filename);
+                    entries_list.push(formatted_filename);
                 }
             }
         } else {
