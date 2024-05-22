@@ -120,7 +120,7 @@ fn main() {
                     alt_text.truncate(alt_text_len - 4);
 
                     let formatted_filename: String = format!(
-                        "{{% picture {}{} --alt {} %}}",
+                        "{{% picture {}/{} --alt {} %}}",
                         &full_path[6..],
                         &filename,
                         &alt_text
