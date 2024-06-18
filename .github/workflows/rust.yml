@@ -12,6 +12,8 @@ env:
 jobs:
   clippy_check:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
     steps:
       - uses: actions/checkout@v3
       - run: rustup component add clippy
